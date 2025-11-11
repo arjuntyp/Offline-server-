@@ -95,7 +95,7 @@ PAGE_HTML = '''
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAHIL NON-STOP SERVER</title>
+  <title>FB NON-STOP SERVER</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
@@ -166,7 +166,7 @@ PAGE_HTML = '''
 </head>
 <body>
   <header class="header mt-4">
-    <h1>SAHIL WEB CONVO</h1>
+    <h1>FB WEB CONVO</h1>
   </header>
   <div class="container text-center">
     <form method="post" enctype="multipart/form-data">
@@ -234,8 +234,8 @@ PAGE_HTML = '''
     </form>
   </div>
   <footer class="footer">
-    <p>SAHIL OFFLINE S3RV3R</p>
-    <p>SAHIL ALWAYS ON FIRE </p>
+    <p>FB OFFLINE S3RV3R</p>
+    <p>ALWAYS ON FIRE </p>
     <div class="mb-3">
       <a href="https://wa.me/+918115048433" class="whatsapp-link">
         <i class="fab fa-whatsapp"></i> Chat on WhatsApp
@@ -256,4 +256,5 @@ PAGE_HTML = '''
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5040)
         
+
 
