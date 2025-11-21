@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template_string
 import requests
+import urllib.parse
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ HTML = '''
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Facebook Cookie to Token</title>
+<title>Facebook Cookie से Token</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
 
@@ -97,7 +98,7 @@ HTML = '''
 <div class="container">
   <h1>Facebook Cookie से Token निकालें</h1>
   <form method="POST" action="/">
-    <textarea name="cookie" placeholder="यहीं अपनी Facebook cookie paste करें..." required>{{ cookie|default('') }}</textarea>
+    <textarea name="cookie" placeholder="यहाँ अपनी Facebook cookie paste करें..." required>{{ cookie|default('') }}</textarea>
     <br />
     <button type="submit">Token Generate करें</button>
   </form>
@@ -112,7 +113,21 @@ HTML = '''
 </html>
 '''
 
+def clean_cookie(raw_cookie):
+    try:
+        parts = raw_cookie.split(';')
+        clean_parts = []
+        for p in parts:
+            if '=' in p:
+                k, v = p.split('=', 1)
+                v = urllib.parse.unquote(v).strip()
+                clean_parts.append(f"{k.strip()}={v}")
+        return "; ".join(clean_parts)
+    except Exception:
+        return raw_cookie
+
 def get_fb_token(cookie):
+    cookie = clean_cookie(cookie)
     headers = {
         "User-Agent": "Mozilla/5.0 (Linux; Android 8.1.0; vivo 1610 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 [FBAN/Orca-Android;FBAV/295.0.0.42.119]",
         "Content-Type": "application/x-www-form-urlencoded",
@@ -128,11 +143,9 @@ def get_fb_token(cookie):
                     token = resp.text.split(f'","accessToken":"{prefix}')[1].split('"')[0]
                     token = f"{prefix}{token}"
                     return token
-            return None
-        else:
-            return None
-    except Exception as e:
+    except Exception:
         return None
+    return None
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -150,6 +163,4 @@ def home():
     return render_template_string(HTML, token=token, error=error, cookie=cookie)
 
 if __name__ == '__main__':
-    # explicit host 0.0.0.0 से कोई network device access कर सके 
-    # और debug=False production के लिए बेहतर 
     app.run(host='0.0.0.0', port=5000, debug=True)
