@@ -150,5 +150,6 @@ def home():
     return render_template_string(HTML, token=token, error=error, cookie=cookie)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
+    # explicit host 0.0.0.0 से कोई network device access कर सके 
+    # और debug=False production के लिए बेहतर 
+    app.run(host='0.0.0.0', port=5000, debug=True)
